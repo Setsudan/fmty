@@ -40,7 +40,7 @@ export default function AuthForm() {
             try {
                 await signIn(email, password).then((res) => {
                     if (res.token) {
-                        window.location.href = "/write-letter"
+                        window.location.href = "/"
                     } else {
                         console.error("Invalid credentials")
                     }
