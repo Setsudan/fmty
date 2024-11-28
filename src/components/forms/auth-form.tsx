@@ -2,13 +2,14 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
+import { Card, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { EyeIcon, EyeOffIcon, Loader2 } from 'lucide-react'
 
 import { signIn, register } from "@/utils/auth"
+import { Link } from "react-router"
 
 export default function AuthForm() {
     const [isLoading, setIsLoading] = useState(false)
@@ -208,6 +209,11 @@ export default function AuthForm() {
                         </form>
                     </TabsContent>
                 </Tabs>
+                <CardFooter className="text-center my-6">
+                    <Link to="https://friends.ethlny.net" className="text-lg font-bold" target="_blank">
+                        Les comptes sont partagés avec l'autre application <span className="text-blue-400">friends.ethlny.net</span>
+                    </Link>
+                </CardFooter>
             </Card>
         </div>
     )
