@@ -36,7 +36,7 @@ export default function AuthForm() {
         setIsLoading(true)
 
         const { email, password, passwordConfirm, name } = data
-
+        console.log("data", data)
         if (activeTab === "signin") {
             try {
                 await signIn(email, password).then((res) => {
@@ -57,7 +57,13 @@ export default function AuthForm() {
             }
 
             try {
-                await register(email, password, name)
+                await register(email, password, passwordConfirm, name).then((res) => {
+                    if (res) {
+                        window.location.href = "/"
+                    } else {
+                        console.error("Invalid credentials")
+                    }
+                });
             } catch (error) {
                 console.error("Error registering:", error)
             }
@@ -89,7 +95,7 @@ export default function AuthForm() {
                         ))}
                     </TabsList>
 
-                    <TabsContent value="signin" className="space-y-4">
+                    <TabsContent value="signin" className="space-y-4" onChange={() => setActiveTab("signin")}>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="space-y-2">
                                 <Label className="text-lg font-bold">Email</Label>
@@ -143,7 +149,7 @@ export default function AuthForm() {
                         </form>
                     </TabsContent>
 
-                    <TabsContent value="register" className="space-y-4">
+                    <TabsContent value="register" className="space-y-4" onChange={() => setActiveTab("register")}>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="space-y-2">
                                 <Label className="text-lg font-bold">Name</Label>

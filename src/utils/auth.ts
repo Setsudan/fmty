@@ -1,4 +1,5 @@
 import { pb } from "@/lib/pocketbase";
+import { AuthModel } from "pocketbase";
 
 
 export async function signIn(email: string, password: string) {
@@ -19,16 +20,17 @@ export function getCurrentUser() {
     return pb.authStore.record;
 }
 
-export async function register(email: string, password: string, passwordConfirm: string) {
+export async function register(email: string, password: string, passwordConfirm: string, name: string): Promise<AuthModel | Error> {
     try {
         const user = await pb.collection('users').create({
-            email,
-            password,
-            passwordConfirm
+            email: email,
+            password: password,
+            name: name,
+            passwordConfirm: passwordConfirm,
         });
         return user;
     } catch (error) {
         console.error('Error registering:', error);
-        throw error;
+        return error as Error;
     }
 }
