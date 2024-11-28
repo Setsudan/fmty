@@ -1,11 +1,11 @@
 import { RecordModel } from "pocketbase";
 import { useState, useEffect } from "react";
 import WriteLetter from "./write-letter";
-import { getAllLetters } from "@/utils/letter";
+import { getLettersByAuthor } from "@/utils/letter";
 import { getUserById, getUserAvatarUri } from "@/utils/users";
 import Letter from "@/components/letter";
 import { Button } from "@/components/ui/button";
-
+import { getCurrentUser } from "@/utils/auth";
 export default function Home() {
     const [letters, setLetters] = useState<RecordModel[]>([]);
     const [loading, setLoading] = useState(true);
@@ -13,7 +13,11 @@ export default function Home() {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const rawLetters = await getAllLetters();
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                throw new Error("User is not authenticated");
+            }
+            const rawLetters = await getLettersByAuthor(currentUser.id);
             console.log("rawLetters", rawLetters);
 
             // Fetch author and receiver data for each letter
