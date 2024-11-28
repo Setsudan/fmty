@@ -55,51 +55,47 @@ export default function LetterForm({ currentUser, friends }: LetterFormProps) {
 
 
     return (
-        <div className="min-h-screen bg-[#f0f0f0] p-8 font-mono">
-            <Card className="mx-auto max-w-2xl border-4 border-black bg-white p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <div className="min-h-screen bg-[#f0f0f0] p-4 font-mono sm:p-6 md:p-8">
+            <Card className="mx-auto w-full max-w-md border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] sm:max-w-lg md:max-w-2xl">
                 <div className="mb-8 text-center">
-                    <h1 className="mb-2 text-4xl font-black">2025 TIME CAPSULE</h1>
-                    <div className="mx-auto h-4 w-32 rounded-full bg-yellow-400" />
+                    <h1 className="mb-2 text-2xl font-black sm:text-3xl md:text-4xl">2025 TIME CAPSULE</h1>
+                    <div className="mx-auto h-4 w-24 rounded-full bg-yellow-400 sm:w-32" />
                 </div>
-
-                <div className="mb-6 grid grid-cols-2 gap-6">
+                <div className="mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div className="space-y-2">
-                        {
-                            currentUser && (
-                                <>
-                                    <Label className="text-lg font-bold">From:</Label>
-                                    <div className="flex items-center gap-3 rounded-xl border-4 border-black bg-blue-100 p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                                        <Avatar className="h-8 w-8 border-2 border-black">
-                                            <AvatarImage src={currentUser.avatar} />
-                                            <AvatarFallback className="bg-blue-300 font-bold">
-                                                {currentUser.name.charAt(0)}
-                                            </AvatarFallback>
-                                        </Avatar>
-                                        <span className="text-lg font-bold">{currentUser.name}</span>
-                                    </div>
-                                </>
-                            ) || (
-                                <div className="h-8 w-8 animate-spin rounded-full border-8 border-dashed border-blue-500" />
-                            )
-                        }
+                        {currentUser ? (
+                            <>
+                                <Label className="text-base font-bold sm:text-lg">From:</Label>
+                                <div className="flex items-center gap-3 rounded-xl border-4 border-black bg-blue-100 p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                    <Avatar className="h-6 w-6 border-2 border-black sm:h-8 sm:w-8">
+                                        <AvatarImage src={currentUser.avatar} />
+                                        <AvatarFallback className="bg-blue-300 font-bold">
+                                            {currentUser.name.charAt(0)}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <span className="text-base font-bold sm:text-lg">{currentUser.name}</span>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="h-6 w-6 animate-spin rounded-full border-4 border-dashed border-blue-500 sm:h-8 sm:w-8" />
+                        )}
                     </div>
-
                     <div className="space-y-2">
-                        <Label className="text-lg font-bold">To:</Label>
-                        {
-                            !friends && (
-                                <div className="h-8 w-8 animate-spin rounded-full border-8 border-dashed border-green-500" />
-                            ) || <Select
+                        <Label className="text-base font-bold sm:text-lg">To:</Label>
+                        {!friends ? (
+                            <div className="h-6 w-6 animate-spin rounded-full border-4 border-dashed border-green-500 sm:h-8 sm:w-8" />
+                        ) : (
+                            <Select
                                 onValueChange={(value) => {
-                                    const friend = friends ? friends.find(f => f.id === value) : null
-                                    setSelectedFriend(friend || null)
+                                    const friend = friends.find((f) => f.id === value) || null;
+                                    setSelectedFriend(friend);
                                 }}
                             >
-                                <SelectTrigger className="w-full rounded-xl border-4 border-black bg-green-100 p-3 text-lg font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-green-200">
+                                <SelectTrigger className="w-full rounded-xl border-4 border-black bg-green-100 p-2 text-sm font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:p-3 sm:text-lg hover:bg-green-200">
                                     <SelectValue placeholder="Select friend...">
                                         {selectedFriend && (
                                             <div className="flex items-center gap-3">
-                                                <Avatar className="h-8 w-8 border-2 border-black">
+                                                <Avatar className="h-6 w-6 border-2 border-black sm:h-8 sm:w-8">
                                                     <AvatarImage src={selectedFriend.avatar} />
                                                     <AvatarFallback className="bg-green-300 font-bold">
                                                         {selectedFriend.name.charAt(0)}
@@ -113,14 +109,14 @@ export default function LetterForm({ currentUser, friends }: LetterFormProps) {
                                 <SelectContent className="border-2 border-black">
                                     <SelectGroup>
                                         <SelectLabel className="font-bold">Friends</SelectLabel>
-                                        {friends && friends.map((friend) => (
+                                        {friends.map((friend) => (
                                             <SelectItem
                                                 key={friend.id}
                                                 value={friend.id}
                                                 className="font-medium"
                                             >
                                                 <div className="flex items-center gap-3">
-                                                    <Avatar className="h-8 w-8 border-2 border-black">
+                                                    <Avatar className="h-6 w-6 border-2 border-black sm:h-8 sm:w-8">
                                                         <AvatarImage src={friend.avatar} />
                                                         <AvatarFallback className="bg-green-300 font-bold">
                                                             {friend.name.charAt(0)}
@@ -133,59 +129,50 @@ export default function LetterForm({ currentUser, friends }: LetterFormProps) {
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
-                        }
+                        )}
                     </div>
                 </div>
-
                 <div className="mb-6 space-y-2">
-                    <Label className="text-lg font-bold">Your Message:</Label>
+                    <Label className="text-base font-bold sm:text-lg">Your Message:</Label>
                     <Textarea
                         value={letterContent}
                         onChange={(e) => setLetterContent(e.target.value)}
                         placeholder="Write your letter for 2025..."
-                        className="min-h-[300px] rounded-xl border-4 border-black bg-pink-50 p-4 text-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] placeholder:text-gray-500 focus-visible:ring-0"
+                        className="min-h-[200px] w-full rounded-xl border-4 border-black bg-pink-50 p-3 text-base shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] placeholder:text-gray-500 focus-visible:ring-0 sm:min-h-[250px] md:min-h-[300px]"
                     />
-                    <div className="flex justify-end text-sm text-gray-500">
+                    <div className="flex justify-end text-xs text-gray-500 sm:text-sm">
                         {letterContent.length} characters
                     </div>
                 </div>
-
                 <div className="flex items-center justify-between">
-                    <div className="h-12 w-12 animate-spin rounded-full border-8 border-dashed border-purple-500" />
+                    <div className="h-6 w-6 animate-spin rounded-full border-4 border-dashed border-purple-500 sm:h-8 sm:w-8 md:h-12 md:w-12" />
                     <Button
-                        className="rounded-xl border-4 border-black bg-yellow-400 px-8 py-6 text-xl font-black text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 hover:bg-yellow-300 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
+                        className="rounded-xl border-4 border-black bg-yellow-400 px-6 py-4 text-lg font-black text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:px-8 sm:py-6 sm:text-xl hover:-translate-y-0.5 hover:bg-yellow-300 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
                         disabled={!selectedFriend || !letterContent.trim() || !currentUser}
                         onClick={handleSubmit}
                     >
                         SEAL THIS LETTER
                     </Button>
                 </div>
-
-                {
-                    error && (
-                        <div className="mt-8 p-4 text-center text-red-500 bg-red-100 rounded-xl border-4 border-red-500">
-                            {error}
-                        </div>
-                    )
-                }
-                {
-                    loading && (
-                        <div className="mt-8 flex justify-center gap-4">
-                            {[...Array(3)].map((_, i) => (
-                                <div
-                                    key={i}
-                                    className="h-3 w-3 rounded-full bg-black"
-                                    style={{
-                                        animation: `bounce 0.6s ${i * 0.2}s infinite`
-                                    }}
-                                />
-                            ))}
-                        </div>
-                    )
-                }
-
+                {error && (
+                    <div className="mt-8 rounded-xl border-4 border-red-500 bg-red-100 p-4 text-center text-red-500">
+                        {error}
+                    </div>
+                )}
+                {loading && (
+                    <div className="mt-8 flex justify-center gap-4">
+                        {[...Array(3)].map((_, i) => (
+                            <div
+                                key={i}
+                                className="h-3 w-3 rounded-full bg-black"
+                                style={{ animation: `bounce 0.6s ${i * 0.2}s infinite` }}
+                            />
+                        ))}
+                    </div>
+                )}
             </Card>
         </div>
+
     )
 }
 
