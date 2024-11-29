@@ -1,7 +1,7 @@
 {
   "name": "fmty",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -21,10 +21,12 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
+    "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.5.1",
     "lucide-react": "^0.462.0",
     "pocketbase": "^0.22.0",
     "react": "^18.3.1",
+    "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.0.1",
     "tailwind-merge": "^2.5.5",

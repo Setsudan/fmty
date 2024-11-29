@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import { Button } from "@/components/ui/button"
-import { PenLine, Inbox, LogOut, Menu } from 'lucide-react'
+import { PenLine, Inbox, LogOut, Menu, UserIcon } from 'lucide-react'
 import { AuthRecord } from 'pocketbase'
 import { Sheet, SheetTrigger, SheetContent, SheetClose } from './ui/sheet'
+import { routesPaths } from '@/constants/routes'
 
 interface NavbarProps {
     user: AuthRecord
@@ -16,7 +17,7 @@ export default function Navbar({ user, onSignOut }: NavbarProps) {
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 {/* Logo */}
                 <Link
-                    to="/"
+                    to={routesPaths.home}
                     className="flex items-center gap-2"
                 >
                     <div className="relative">
@@ -31,7 +32,7 @@ export default function Navbar({ user, onSignOut }: NavbarProps) {
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-2">
-                    <Link to="/">
+                    <Link to={routesPaths.home}>
                         <Button
                             variant="ghost"
                             className="group relative rounded-xl border-4 border-black bg-green-400 px-4 py-2 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 hover:bg-green-300 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
@@ -46,7 +47,7 @@ export default function Navbar({ user, onSignOut }: NavbarProps) {
                         </Button>
                     </Link>
 
-                    <Link to="/read">
+                    <Link to={routesPaths.read}>
                         <Button
                             variant="ghost"
                             className="rounded-xl border-4 border-black bg-pink-400 px-4 py-2 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 hover:bg-pink-300 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
@@ -60,9 +61,10 @@ export default function Navbar({ user, onSignOut }: NavbarProps) {
                     {/* User Menu */}
                     <div className="ml-4 flex items-center gap-4 rounded-xl border-4 border-black bg-blue-100 px-4 py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                         {user && (
-                            <div className="flex items-center gap-2">
+                            <Link to={routesPaths.profile} className="flex items-center gap-2 cursor-pointer">
+                                <UserIcon className="h-6 w-6" />
                                 <p>{user.name}</p>
-                            </div>
+                            </Link>
                         )}
                         <div className="h-8 w-px bg-black/20" />
                         <Button
@@ -90,7 +92,7 @@ export default function Navbar({ user, onSignOut }: NavbarProps) {
                         <SheetContent side="right" className="w-[300px] border-l-4 border-black bg-white p-6">
                             <div className="flex flex-col gap-4">
                                 <SheetClose asChild>
-                                    <Link to="/">
+                                    <Link to={routesPaths.home}>
                                         <Button
                                             variant="ghost"
                                             className="group relative rounded-xl border-4 border-black bg-green-400 px-4 py-2 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 hover:bg-green-300 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
@@ -106,7 +108,7 @@ export default function Navbar({ user, onSignOut }: NavbarProps) {
                                     </Link>
                                 </SheetClose>
                                 <SheetClose asChild>
-                                    <Link to="/read">
+                                    <Link to={routesPaths.read}>
                                         <Button
                                             variant="ghost"
                                             className="rounded-xl border-4 border-black bg-pink-400 px-4 py-2 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 hover:bg-pink-300 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
@@ -119,7 +121,10 @@ export default function Navbar({ user, onSignOut }: NavbarProps) {
                                 </SheetClose>
                                 {user && (
                                     <div className="flex items-center gap-2 rounded-xl border-4 border-black bg-blue-100 p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                                        <p>{user.name}</p>
+                                        <Link to={routesPaths.profile} className="flex items-center gap-2 cursor-pointer">
+                                            <UserIcon className="h-6 w-6" />
+                                            <p>{user.name}</p>
+                                        </Link>
                                         <Button
                                             onClick={onSignOut}
                                             variant="ghost"

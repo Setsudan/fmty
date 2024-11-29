@@ -23,6 +23,7 @@ export function getCurrentUser() {
 export async function register(email: string, password: string, passwordConfirm: string, name: string): Promise<AuthModel | Error> {
     try {
         const user = await pb.collection('users').create({
+            username: name.toLowerCase().replace(/[^a-z0-9]/g, ''),
             email: email,
             password: password,
             name: name,

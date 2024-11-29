@@ -10,6 +10,7 @@ import { EyeIcon, EyeOffIcon, Loader2 } from 'lucide-react'
 
 import { signIn, register } from "@/utils/auth"
 import { Link } from "react-router"
+import { routesPaths } from "@/constants/routes"
 
 export default function AuthForm() {
     const [isLoading, setIsLoading] = useState(false)
@@ -41,7 +42,7 @@ export default function AuthForm() {
             try {
                 await signIn(email, password).then((res) => {
                     if (res.token) {
-                        window.location.href = "/"
+                        window.location.href = routesPaths.home
                     } else {
                         console.error("Invalid credentials")
                     }
@@ -59,7 +60,7 @@ export default function AuthForm() {
             try {
                 await register(email, password, passwordConfirm, name).then((res) => {
                     if (res) {
-                        window.location.href = "/"
+                        window.location.href = routesPaths.home
                     } else {
                         console.error("Invalid credentials")
                     }

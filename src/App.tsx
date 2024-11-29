@@ -5,11 +5,13 @@ import Home from "./pages/home";
 import ReadLetters from "./pages/read_letters";
 import { getCurrentUser } from "./utils/auth";
 import Navbar from "./components/navbar";
+// import { Profile } from "./pages/profile";
+import { routesPaths } from "./constants/routes";
 
 // Middleware component
 const RequireAuth = () => {
   const isAuthenticated = pb.authStore.isValid; // Check if the session is valid
-  return isAuthenticated ? <Outlet /> : <Navigate to="/auth" replace />;
+  return isAuthenticated ? <Outlet /> : <Navigate to={routesPaths.auth} replace />;
 };
 
 const PrivateLayout = () => {
@@ -28,13 +30,14 @@ const App = () => {
     <Router>
       <Routes>
         {/* Public route */}
-        <Route path="/auth" element={<Auth />} />
+        <Route path={routesPaths.auth} element={<Auth />} />
 
         {/* Private route */}
         <Route element={<RequireAuth />}>
           <Route element={<PrivateLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/read" element={<ReadLetters />} />
+            <Route path={routesPaths.home} element={<Home />} />
+            <Route path={routesPaths.read} element={<ReadLetters />} />
+            {/* <Route path={routesPaths.profile} element={<Profile />} /> */}
           </Route>
         </Route>
       </Routes>
