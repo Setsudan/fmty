@@ -72,8 +72,12 @@ export default function Home() {
                         <h2 className="text-xl font-bold">Tu n'as pas encore écris de lettre.... Tristesse</h2>
                     </div>
                 </div>
-            ) : (
-                <div className="grid grid-cols-1 gap-6">
+            ) : (<>
+                <Button onClick={fetchData} variant="ghost" className="mb-4">
+                    <RefreshCw className="mr-2" />
+                    Refresh
+                </Button>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {letters.map((letter) => (
                         <Letter
                             key={letter.id}
@@ -85,6 +89,7 @@ export default function Home() {
                         />
                     ))}
                 </div>
+            </>
             )}
         </>
     );

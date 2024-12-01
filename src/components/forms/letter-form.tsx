@@ -18,9 +18,8 @@ import { useState } from "react"
 import type { LetterFormProps } from "@/types/user";
 import { RecordModel } from "pocketbase";
 import { createLetter } from "@/utils/letter"
-import { Input } from "../ui/input"
 import { getSpotifyToken } from "@/utils/spotify"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
+import { SpotifyTrackSelector } from "../spotify-track-select"
 
 type SpotifyTrack = {
     id: string;
@@ -184,61 +183,7 @@ export default function LetterForm({ currentUser, friends }: LetterFormProps) {
                     </div>
                 </div>
                 <div className="space-y-4">
-                    <Input
-                        placeholder="Quelle musique pour cette lettre ?"
-                        onChange={(e) => handleSpotifySearch(e.target.value)}
-                        className="rounded-xl border-4 border-black bg-white p-3 text-base shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-                    />
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button className="w-full rounded-xl border-4 border-black text-black bg-white p-3 text-base font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                                {selectedTrack ? (
-                                    <div className="flex items-center gap-2">
-                                        <img
-                                            src={selectedTrack.album.images[0].url}
-                                            alt="Album cover"
-                                            className="h-8 w-8 rounded"
-                                        />
-                                        <span>{selectedTrack.name}</span>
-                                    </div>
-                                ) : (
-                                    "Choisir une des musiques proposées"
-                                )}
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="max-h-60 w-64 overflow-y-auto border-2 border-black">
-                            {spotifyResults.map((track) => (
-                                <DropdownMenuItem
-                                    key={track.id}
-                                    onClick={() => setSelectedTrack(track)}
-                                    className="flex items-center gap-2"
-                                >
-                                    <img
-                                        src={track.album.images[0].url}
-                                        alt="Album cover"
-                                        className="h-8 w-8 rounded"
-                                    />
-                                    <div>
-                                        <p className="text-sm font-bold">{track.name}</p>
-                                        <p className="text-xs text-gray-500">{track.artists[0].name}</p>
-                                    </div>
-                                </DropdownMenuItem>
-                            ))}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                    {selectedTrack && (
-                        <div className="mt-4 flex items-center gap-2">
-                            <img
-                                src={selectedTrack.album.images[0].url}
-                                alt="Album cover"
-                                className="h-12 w-12 rounded"
-                            />
-                            <div>
-                                <p className="text-sm font-bold">{selectedTrack.name}</p>
-                                <p className="text-xs text-gray-500">{selectedTrack.artists[0].name}</p>
-                            </div>
-                        </div>
-                    )}
+                    <SpotifyTrackSelector handleSpotifySearch={handleSpotifySearch} onTrackSelect={setSelectedTrack} spotifyResults={spotifyResults} selectedTrack={selectedTrack} />
                 </div>
                 <div className="flex items-center justify-between mt-6">
                     <div className="h-6 w-6 animate-spin rounded-full border-4 border-dashed border-purple-500 sm:h-8 sm:w-8 md:h-12 md:w-12" />
