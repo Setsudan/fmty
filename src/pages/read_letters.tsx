@@ -26,12 +26,8 @@ export default function ReadLetters() {
     };
 
     useEffect(() => {
-        if (isTodayAfter2025) {
-            fetchData();
-        } else {
-            setLetters([]);
-        }
-    }, [isTodayAfter2025]);
+        fetchData();
+    }, []);
 
     return (
         <div className="min-h-screen bg-[#f0f0f0] p-8 font-mono">
@@ -59,7 +55,7 @@ export default function ReadLetters() {
             </div>
 
             <div className="grid grid-cols-1 gap-6">
-                {letters.length === 0 ? (
+                {!isTodayAfter2025 ? (
                     <div className="relative overflow-hidden rounded-xl border-4 border-black bg-white p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                         <div className="absolute -right-8 -top-8 h-24 w-24 rotate-12 bg-yellow-400" />
                         <div className="absolute -left-8 -top-8 h-24 w-24 -rotate-12 bg-blue-400" />
@@ -104,6 +100,7 @@ export default function ReadLetters() {
                                     receiver={letter.receiver}
                                     authorAvatar={letter.authorAvatar}
                                     receiverAvatar={letter.receiverAvatar}
+
                                 />
                             </div>
                         ))}

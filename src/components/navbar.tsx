@@ -25,7 +25,7 @@ export default function Navbar({ user, onSignOut }: NavbarProps) {
                         <div className="absolute left-4 top-2 h-8 w-8 -rotate-12 rounded-lg border-4 border-black bg-blue-400" />
                     </div>
                     <span className="relative z-10 text-xl font-black">
-                        LETTERS
+                        From Me To You
                         <div className="absolute -bottom-1 left-0 -z-10 h-2 w-full bg-purple-400" />
                     </span>
                 </Link>
@@ -73,7 +73,7 @@ export default function Navbar({ user, onSignOut }: NavbarProps) {
                             className="rounded-lg border-2 border-black bg-red-400 p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 hover:bg-red-300 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                         >
                             <LogOut className="h-4 w-4" />
-                            <span className="sr-only">Sign out</span>
+                            <span className="sr-only">Se déconnecter</span>
                         </Button>
                     </div>
                 </nav>
@@ -131,7 +131,7 @@ export default function Navbar({ user, onSignOut }: NavbarProps) {
                                             className="ml-auto rounded-lg border-2 border-black bg-red-400 p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 hover:bg-red-300 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                                         >
                                             <LogOut className="h-4 w-4" />
-                                            <span className="sr-only">Sign out</span>
+                                            <span className="sr-only">Se déconnecter</span>
                                         </Button>
                                     </div>
                                 )}

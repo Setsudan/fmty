@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Pencil, Trash2 } from "lucide-react";
 import { deleteLetter } from "@/utils/letter";
 import { RecordModel } from "pocketbase";
+import { getCurrentUser } from "@/utils/auth";
 
 export default function Letter({
     letter,
@@ -80,16 +81,20 @@ export default function Letter({
             </div>
 
             {/* Actions */}
-            <div className="flex justify-end gap-4">
-                <Button onClick={handleEdit} className="action-button">
-                    <Pencil />
-                    Edit
-                </Button>
-                <Button onClick={handleDelete} className="action-button" disabled={isDeleting}>
-                    <Trash2 />
-                    Delete
-                </Button>
-            </div>
+            {
+                getCurrentUser()?.id === author.id && (
+                    <div className="flex justify-end gap-4">
+                        <Button onClick={handleEdit} className="action-button">
+                            <Pencil />
+                            Edit
+                        </Button>
+                        <Button onClick={handleDelete} className="action-button" disabled={isDeleting}>
+                            <Trash2 />
+                            Delete
+                        </Button>
+                    </div>
+                )
+            }
         </Card>
     );
 }
