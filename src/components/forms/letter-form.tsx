@@ -18,12 +18,26 @@ import { useState } from "react"
 import type { LetterFormProps } from "@/types/user";
 import { RecordModel } from "pocketbase";
 import { createLetter } from "@/utils/letter"
+import { Input } from "../ui/input"
+import { getSpotifyToken } from "@/utils/spotify"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
+
+type SpotifyTrack = {
+    id: string;
+    name: string;
+    album: {
+        images: { url: string }[];
+    };
+    artists: { name: string }[];
+};
 
 export default function LetterForm({ currentUser, friends }: LetterFormProps) {
     const [letterContent, setLetterContent] = useState("");
     const [selectedFriend, setSelectedFriend] = useState<RecordModel | null>(null)
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [spotifyResults, setSpotifyResults] = useState<SpotifyTrack[]>([]); // Results from Spotify API
+    const [selectedTrack, setSelectedTrack] = useState<SpotifyTrack | null>(null); // Selected track
 
     const convertContentTextToHTML = (content: string) => {
         return content.replace(/\n/g, "<br />");
@@ -37,10 +51,12 @@ export default function LetterForm({ currentUser, friends }: LetterFormProps) {
                 await createLetter({
                     content: convertContentTextToHTML(letterContent),
                     author: currentUser.id,
-                    receiver: selectedFriend.id
+                    receiver: selectedFriend.id,
+                    spotifyTrackId: selectedTrack ? selectedTrack.id : undefined,
                 }).then(() => {
                     setLetterContent("");
                     setSelectedFriend(null);
+                    setSelectedTrack(null);
                 }).finally(() => {
                     // wait 2 seconds before setting loading to false
                     setTimeout(() => setLoading(false), 2000);
@@ -53,12 +69,35 @@ export default function LetterForm({ currentUser, friends }: LetterFormProps) {
         }
     }
 
+    const timerOfTimeLeftBefore2025 = () => {
+        const currentDate = new Date();
+        const year2025 = new Date("2025-01-01T00:00:00");
+        const timeLeft = year2025.getTime() - currentDate.getTime();
+        const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        return `${daysLeft} jours et ${hoursLeft} heures restants avant 2025`;
+    }
+
+    const handleSpotifySearch = async (query: string) => {
+        if (!query.trim()) return;
+        const token = await getSpotifyToken();
+        const response = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=5`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await response.json();
+        setSpotifyResults(data.tracks.items);
+    };
+
 
     return (
         <div className="min-h-screen bg-[#f0f0f0] p-4 font-mono sm:p-6 md:p-8">
             <Card className="mx-auto w-full max-w-md border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] sm:max-w-lg md:max-w-2xl">
                 <div className="mb-8 text-center">
                     <h1 className="mb-2 text-2xl font-black sm:text-3xl md:text-4xl">2025 TIME CAPSULE</h1>
+                    <h2 className="text-lg font-bold sm:text-xl md:text-2xl">
+                        {timerOfTimeLeftBefore2025()}
+                    </h2>
                     <div className="mx-auto h-4 w-24 rounded-full bg-yellow-400 sm:w-32" />
                 </div>
                 <div className="mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -144,14 +183,71 @@ export default function LetterForm({ currentUser, friends }: LetterFormProps) {
                         {letterContent.length} characters
                     </div>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="space-y-4">
+                    <Input
+                        placeholder="Quelle musique pour cette lettre ?"
+                        onChange={(e) => handleSpotifySearch(e.target.value)}
+                        className="rounded-xl border-4 border-black bg-white p-3 text-base shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                    />
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button className="w-full rounded-xl border-4 border-black text-black bg-white p-3 text-base font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                {selectedTrack ? (
+                                    <div className="flex items-center gap-2">
+                                        <img
+                                            src={selectedTrack.album.images[0].url}
+                                            alt="Album cover"
+                                            className="h-8 w-8 rounded"
+                                        />
+                                        <span>{selectedTrack.name}</span>
+                                    </div>
+                                ) : (
+                                    "Choisir une des musiques proposées"
+                                )}
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="max-h-60 w-64 overflow-y-auto border-2 border-black">
+                            {spotifyResults.map((track) => (
+                                <DropdownMenuItem
+                                    key={track.id}
+                                    onClick={() => setSelectedTrack(track)}
+                                    className="flex items-center gap-2"
+                                >
+                                    <img
+                                        src={track.album.images[0].url}
+                                        alt="Album cover"
+                                        className="h-8 w-8 rounded"
+                                    />
+                                    <div>
+                                        <p className="text-sm font-bold">{track.name}</p>
+                                        <p className="text-xs text-gray-500">{track.artists[0].name}</p>
+                                    </div>
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    {selectedTrack && (
+                        <div className="mt-4 flex items-center gap-2">
+                            <img
+                                src={selectedTrack.album.images[0].url}
+                                alt="Album cover"
+                                className="h-12 w-12 rounded"
+                            />
+                            <div>
+                                <p className="text-sm font-bold">{selectedTrack.name}</p>
+                                <p className="text-xs text-gray-500">{selectedTrack.artists[0].name}</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+                <div className="flex items-center justify-between mt-6">
                     <div className="h-6 w-6 animate-spin rounded-full border-4 border-dashed border-purple-500 sm:h-8 sm:w-8 md:h-12 md:w-12" />
                     <Button
                         className="rounded-xl border-4 border-black bg-yellow-400 px-6 py-4 text-lg font-black text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:px-8 sm:py-6 sm:text-xl hover:-translate-y-0.5 hover:bg-yellow-300 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
                         disabled={!selectedFriend || !letterContent.trim() || !currentUser}
                         onClick={handleSubmit}
                     >
-                        SEAL THIS LETTER
+                        Envoyer cette lettre
                     </Button>
                 </div>
                 {error && (

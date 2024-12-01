@@ -70,6 +70,15 @@ export default function Letter({
                 <div dangerouslySetInnerHTML={{ __html: letter.content }} />
             </div>
 
+            {/* Spotify Track preview */}
+            <div className="relative mb-3 rounded-xl">
+                <iframe
+                    src={`https://open.spotify.com/embed/track/${letter.spotifyTrackId}`}
+                    className="w-full h-80"
+                    allow="encrypted-media"
+                ></iframe>
+            </div>
+
             {/* Actions */}
             <div className="flex justify-end gap-4">
                 <Button onClick={handleEdit} className="action-button">

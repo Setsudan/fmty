@@ -6,6 +6,7 @@ interface Letter {
     content: string;
     author: string;
     receiver: string;
+    spotifyTrackId?: string;
 }
 
 export async function createLetter(letter: Letter) {

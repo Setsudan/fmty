@@ -8,9 +8,11 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { EyeIcon, EyeOffIcon, Loader2 } from 'lucide-react'
 
-import { signIn, register } from "@/utils/auth"
+import { signIn, register, registerOrSignInWithSpotify } from "@/utils/auth"
 import { Link } from "react-router"
 import { routesPaths } from "@/constants/routes"
+import { Separator } from "../ui/separator";
+import { CibSpotify } from "../icons/spotify"
 
 export default function AuthForm() {
     const [isLoading, setIsLoading] = useState(false)
@@ -91,7 +93,7 @@ export default function AuthForm() {
                                 value={tab}
                                 className="rounded-xl border-4 border-black bg-white p-3 text-lg font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all data-[state=active]:bg-purple-400 data-[state=active]:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] data-[state=active]:translate-x-[2px] data-[state=active]:translate-y-[2px]"
                             >
-                                {tab === "signin" ? "Sign In" : "Register"}
+                                {tab === "signin" ? "Se connecter" : "Créer un compte"}
                             </TabsTrigger>
                         ))}
                     </TabsList>
@@ -111,7 +113,7 @@ export default function AuthForm() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label className="text-lg font-bold">Password</Label>
+                                <Label className="text-lg font-bold">Mot de passe</Label>
                                 <div className="relative">
                                     <Input
                                         required
@@ -144,7 +146,7 @@ export default function AuthForm() {
                                 {isLoading ? (
                                     <Loader2 className="mr-2 h-6 w-6 animate-spin" />
                                 ) : (
-                                    "Sign In"
+                                    "Se connecter"
                                 )}
                             </Button>
                         </form>
@@ -153,7 +155,7 @@ export default function AuthForm() {
                     <TabsContent value="register" className="space-y-4" onChange={() => setActiveTab("register")}>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="space-y-2">
-                                <Label className="text-lg font-bold">Name</Label>
+                                <Label className="text-lg font-bold">Qui es tu ?</Label>
                                 <Input
                                     required
                                     type="text"
@@ -177,7 +179,7 @@ export default function AuthForm() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label className="text-lg font-bold">Password</Label>
+                                <Label className="text-lg font-bold">Mot de passe</Label>
                                 <Input
                                     required
                                     minLength={8}
@@ -190,7 +192,7 @@ export default function AuthForm() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label className="text-lg font-bold">Confirm Password</Label>
+                                <Label className="text-lg font-bold">Confirme ton mot de passe</Label>
                                 <Input
                                     required
                                     minLength={8}
@@ -210,13 +212,23 @@ export default function AuthForm() {
                                 {isLoading ? (
                                     <Loader2 className="mr-2 h-6 w-6 animate-spin" />
                                 ) : (
-                                    "Register"
+                                    "Créer mon compte"
                                 )}
                             </Button>
                         </form>
                     </TabsContent>
                 </Tabs>
-                <CardFooter className="text-center my-6">
+                <CardFooter className="text-center my-6 flex flex-col items-center space-y-4">
+                    <Separator className="sm:my-4 md:my-6" />
+                    <Button
+                        onClick={registerOrSignInWithSpotify}
+                        className="w-full rounded-xl border-4 border-black bg-green-400 p-6 text-xl font-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-0.5 hover:bg-green-300 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
+                    >
+                        <span className="inline sm:inline md:hidden">Connection avec</span>
+                        <span className="hidden md:inline lg:hidden">Connection avec Spotify</span>
+                        <span className="hidden lg:inline">Se connecter avec Spotify</span>
+                        <CibSpotify className="mr-1 h-10 w-10" fontSize={8} />
+                    </Button>
                     <Link to="https://friends.ethlny.net" className="text-lg font-bold" target="_blank">
                         Les comptes sont partagés avec l'autre application <span className="text-blue-400">friends.ethlny.net</span>
                     </Link>

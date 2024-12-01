@@ -6,6 +6,7 @@ import { getUserById, getUserAvatarUri } from "@/utils/users";
 import Letter from "@/components/letter";
 import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/utils/auth";
+import { RefreshCw } from "lucide-react";
 export default function Home() {
     const [letters, setLetters] = useState<RecordModel[]>([]);
     const [loading, setLoading] = useState(true);
@@ -62,14 +63,17 @@ export default function Home() {
                     </div>
                 </div>
             ) : letters.length === 0 ? (
-                <div className="flex justify-center items-center h-64">
+                <div className="flex justify-center items-center h-64 relative">
+                    <Button onClick={fetchData} variant="ghost" className="absolute top-4 right-4">
+                        <RefreshCw className="mr-2" />
+                        Refresh
+                    </Button>
                     <div className="bg-white border-2 border-black p-4 shadow-lg">
                         <h2 className="text-xl font-bold">Tu n'as pas encore écris de lettre.... Tristesse</h2>
                     </div>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 gap-6">
-                    <Button onClick={fetchData}>Refresh</Button>
                     {letters.map((letter) => (
                         <Letter
                             key={letter.id}

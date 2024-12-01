@@ -3,5 +3,5 @@ export const routesPaths = {
     read: '/read',
     profile: '/profile',
     auth: '/auth',
-    notFound: '/not-found',
+    notFound: '*',
 }
