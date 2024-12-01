@@ -34,7 +34,7 @@ const App = () => {
       <Routes>
         {/* Public route */}
         <Route path={routesPaths.auth} element={<Auth />} />
-        <Route path={routesPaths.notFound} element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
 
         {/* Private route */}
         <Route element={<RequireAuth />}>
@@ -42,6 +42,7 @@ const App = () => {
             <Route path={routesPaths.home} element={<Home />} />
             <Route path={routesPaths.read} element={<ReadLetters />} />
             <Route path={routesPaths.profile} element={<Profile />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
       </Routes>
