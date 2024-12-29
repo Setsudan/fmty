@@ -1,50 +1,32 @@
-# React + TypeScript + Vite
+# 🎉 From Me to You  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A heartfelt web app for sharing memories and music ✉️🎶  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ What It Was All About  
 
-## Expanding the ESLint configuration
+**From Me to You** was a simple yet meaningful web app designed to help users capture and share moments with a touch of nostalgia. Here's what it offered:  
+- 🌟 **Write a Letter**: Users could write a letter to another app user, reflecting on memories or sentiments from the past year.  
+- 🎆 **Time Capsule**: Letters remained hidden until the New Year, creating a sense of anticipation and excitement.  
+- 🎵 **Add Music**: Users could attach a Spotify track to their letters, adding a soundtrack to their sentiments.  
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## 🛠️ Tech Stack  
+- **Frontend**: Built with love using [React](https://react.dev/).  
+- **Backend**: Powered by [PocketBase](https://pocketbase.io/) (now offline).  
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 📜 Status  
+The backend database is no longer available, and the app has been taken offline permanently. However, the idea lives on as a cherished project of mine.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+---
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## 🚀 Inspiration  
+From Me to You was inspired by the joy of reflecting on memories and sharing heartfelt connections.  
+
+If you'd like to revive this concept or explore the source code, feel free to reach out!  
+
+---
